@@ -1,6 +1,5 @@
 import express from "express";
 import upload from "../auth/upload.js";
-import cloudinary from "../utalities/cloudnary.js";
 import createworker from "../controllers/worker_controller.js";
 import createclient from "../controllers/client_controller.js";
 import varify_OTP from "../controllers/varify_OTP.js";

@@ -1,6 +1,5 @@
 import Worker_schema from "../models/Worker_schema.js";
 import cloudinary from "cloudinary";
-import fs from "fs";
 
 const addportfolio = async (req, res) => {
     const { title} = req.body;
