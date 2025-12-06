@@ -11,14 +11,10 @@ import serverless from "serverless-http";
 
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
@@ -41,12 +37,10 @@ app.use("/", router);
 
 
 // Connect DB and start server
-export const handler = async (req, res) => {
-  try {
-    await user_DB(); // Ensure MongoDB is connected
-    return serverless(app)(req, res);
-  } catch (error) {
-    console.error("Handler error:", error);
-    return res.status(500).json({ error: "Server error" });
-  }
-};
+user_DB().then(() => {
+  console.log("MongoDB connected");
+}).catch((err) => {
+  console.error("MongoDB connection error:", err);
+});
+
+export default serverless(app);
