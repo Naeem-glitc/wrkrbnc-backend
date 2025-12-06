@@ -1,18 +1,13 @@
 import express from 'express';
 import user_DB from '../config/user_DB.js';
 import router from '../routes/user_routes.js';
-import dotenv from 'dotenv';
 import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import { check_worker } from '../auth/middleware.js';
 import serverless from "serverless-http";
 
 
 
-
-dotenv.config();
 
 const app = express();
 
