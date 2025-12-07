@@ -5,7 +5,10 @@ let isDBconnected = false;
 const user_DB = async () => {
   if (isDBconnected) return;
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+      await mongoose.connect(mongoURI, {
+      serverSelectionTimeoutMS: 5000, // 5 seconds timeout
+      socketTimeoutMS: 45000,
+    });
     isDBconnected = true;
     console.log('Connected to MongoDB successfully');
   } catch (err) {
@@ -13,5 +16,6 @@ const user_DB = async () => {
     process.exit(1);
   }
 };
+user_DB().catch(console.error);
 export default user_DB;
 

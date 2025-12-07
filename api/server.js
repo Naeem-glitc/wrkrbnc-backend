@@ -29,13 +29,23 @@ app.use(cookieParser());
 // Routes
 app.use("/", router);
 
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/test', (req, res) => {
+  res.json({ message: 'Test successful' });
+});
 
 
 // Connect DB and start server
 user_DB().then(() => {
-  console.log("MongoDB connected");
-}).catch((err) => {
-  console.error("MongoDB connection error:", err);
+  console.log('MongoDB connection initialized');
+}).catch(err => {
+  console.error('MongoDB init error:', err);
 });
 
 export default serverless(app);
