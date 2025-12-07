@@ -26,6 +26,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/checkworker", check_worker)
 app.use(cookieParser());
 
+app.get('/', (req, res) => {
+  res.json({
+    message: 'WorkerBNC Backend API',
+    status: 'Running',
+    mongoDB: 'Connected',
+    timestamp: new Date().toISOString(),
+    endpoints: ['/health', '/api/*'] // List your actual endpoints
+  });
+});
 // Routes
 app.use("/", router);
 
