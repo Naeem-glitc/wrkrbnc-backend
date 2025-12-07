@@ -1,7 +1,6 @@
 
 import mongoose from 'mongoose';
 
-dotenv.config();
 let isDBconnected = false;
 const user_DB = async () => {
   if (isDBconnected) return;
