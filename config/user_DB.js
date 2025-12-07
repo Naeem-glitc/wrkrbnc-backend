@@ -5,7 +5,7 @@ let isDBconnected = false;
 const user_DB = async () => {
   if (isDBconnected) return;
   try {
-      await mongoose.connect(mongoURI, {
+      await mongoose.connect(MONGODB_URI, {
       serverSelectionTimeoutMS: 5000, // 5 seconds timeout
       socketTimeoutMS: 45000,
     });
