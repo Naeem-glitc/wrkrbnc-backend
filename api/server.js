@@ -12,7 +12,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ["https://wrkrbnc-frontend.vercel.app",
+  origin: ["https://wrkrbnc.vercel.app/",
     /\.vercel\.app$/,   
     "http://localhost:3000"
   ],
