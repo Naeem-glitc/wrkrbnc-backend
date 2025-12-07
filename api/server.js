@@ -12,9 +12,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ["https://wrkrbnc.vercel.app/",
-    /\.vercel\.app$/,   
-    "http://localhost:3000"
+  origin: ["https://wrkrbnc.vercel.app/"
   ],
 
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
