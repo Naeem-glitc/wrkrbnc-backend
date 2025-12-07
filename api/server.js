@@ -4,7 +4,6 @@ import router from '../routes/user_routes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { check_worker } from '../auth/middleware.js';
-import serverless from "serverless-http";
 
 
 
@@ -57,4 +56,4 @@ user_DB().then(() => {
   console.error('MongoDB init error:', err);
 });
 
-export default serverless(app);
+export default app;
