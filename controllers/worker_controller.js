@@ -70,7 +70,7 @@ const createworker = async (req, resp) => {
     const resend = new Resend(process.env.Resend_API);
 
     await resend.emails.send({
-      from: process.env.My_Email,
+      from:'WorkerBNC <onboarding@resend.dev>',
       to: Email,
       subject: 'Verify your email',
       html: `<p>Click to verify: <a href="${otp}">Verify Email</a></p>`
