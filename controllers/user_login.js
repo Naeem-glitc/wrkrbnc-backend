@@ -26,7 +26,12 @@ const userLogin = async (req, resp) => {
     }
 
     const token = jwt.sign({ id: user._id, Email: user.Email, role }, process.env.My_Secret_Key,{expiresIn: '7d'});
-    resp.status(200).cookie("token", token).json({ message: "Login Successfully", success: true,role: role, id: user._id,token });
+    resp.status(200).cookie("token", token,{
+        httpOnly: true,
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        path: '/'
+      }).json({ message: "Login Successfully", success: true,role: role, id: user._id,token });
 
 
   } catch (error) {
@@ -38,7 +43,29 @@ const userLogin = async (req, resp) => {
 
 
 const logout = (req, resp)=>{
-  resp.clearCookie("token").status(200).json({message:"Logout Successfully", success:true});
+   try {
+    
+    // Clear the cookie with same options as login
+    resp
+      .clearCookie('token', {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/'
+      })
+      .status(200)
+      .json({ 
+        message: 'Logout Successful', 
+        success: true 
+      });
+      
+  } catch (error) {
+    console.error('Logout error:', error);
+    resp.status(500).json({ 
+      message: 'Logout failed', 
+      success: false,
+      error: error.message 
+    });
+  }
 }
 
 
