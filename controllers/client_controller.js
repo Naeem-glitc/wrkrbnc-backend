@@ -47,7 +47,7 @@ const createclient = async (req, resp) => {
 
         const { data, error } = await sgMail.send({
             to: Email,
-            from: '',
+            from: 'workerbnc@gmail.com',
             subject: 'Verify Your Email - WorkerBNC',
             html: `
                 <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
