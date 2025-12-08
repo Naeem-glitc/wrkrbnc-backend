@@ -37,7 +37,7 @@ const createclient = async (req, resp) => {
         // 4. DEBUG: Check environment variable
         console.log('Checking Resend API Key...');
         console.log('API_KEY exists:', !!process.env.API_KEY);
-        console.log('Resend_API exists:', !!process.env.Resend_API);
+        console.log('Resend_API exists:', !!process.env.API_KEY);
         console.log('All env vars:', Object.keys(process.env).filter(k => k.includes('RESEND') || k.includes('RESEND')));
 
         // 5. Send verification email
