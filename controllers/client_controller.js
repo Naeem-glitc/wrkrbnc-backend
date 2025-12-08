@@ -2,7 +2,7 @@ import Client_schema from "../models/client_schema.js";
 import bcrypt from "bcryptjs";
 import otpStore from "../services/otpStore.js";
 import crypto from 'crypto';
-import { Resend } from 'resend';
+import sgMail from '@sendgrid/mail';
 
 
 // API function to create a new client
@@ -36,18 +36,18 @@ const createclient = async (req, resp) => {
 
         // 4. DEBUG: Check environment variable
         console.log('Checking Resend API Key...');
-        console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+        console.log('API_KEY exists:', !!process.env.API_KEY);
         console.log('Resend_API exists:', !!process.env.Resend_API);
         console.log('All env vars:', Object.keys(process.env).filter(k => k.includes('RESEND') || k.includes('RESEND')));
 
         // 5. Send verification email
-        const resend = new Resend(process.env.RESEND_API_KEY || process.env.Resend_API); // Try both
+        sgMail.setApiKey(process.env.API_KEY); // Try both
 
         console.log('Attempting to send email to:', Email);
 
-        const { data, error } = await resend.emails.send({
-            from: 'WorkerBNC <onboarding@resend.dev>',
+        const { data, error } = await sgMail.send({
             to: Email,
+            from: '',
             subject: 'Verify Your Email - WorkerBNC',
             html: `
                 <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
@@ -89,7 +89,7 @@ const createclient = async (req, resp) => {
 
         // 6. Check if email was sent successfully
         if (error) {
-            console.error('Resend API Error:', error);
+            console.error('sgMail API Error:', error);
             return resp.status(500).json({
                 message: 'Failed to send verification email',
                 success: false,
