@@ -9,6 +9,16 @@ import { check_worker } from '../auth/middleware.js';
 
 
 const app = express();
+const corsOptions = {
+  origin: ['https://wrkrbnc.vercel.app', 'http://localhost:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Content-Length', 'Authorization'],
+  maxAge: 86400
+};
+
+app.use(cors(corsOptions)); 
 
 // Middleware
 app.use((req, res, next) => {
