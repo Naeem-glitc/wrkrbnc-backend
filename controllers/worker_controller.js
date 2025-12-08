@@ -2,9 +2,9 @@ import Worker_schema from '../models/Worker_schema.js';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import otpStore from '../services/otpStore.js';
-import transporter from '../services/emailer.js';
 import cloudinary from "../utalities/cloudnary.js";
 import streamifier from "streamifier";
+import { Resend } from 'resend';
 
 const createworker = async (req, resp) => {
   const { First_Name, Last_Name, Email, City, Address, Profession, Password } = req.body;
@@ -67,18 +67,20 @@ const createworker = async (req, resp) => {
     });
 
     // Send OTP email
-    await transporter.sendMail({
+    const resend = new Resend(process.env.Resend_API);
+
+    await resend.emails.send({
       from: process.env.My_Email,
       to: Email,
-      subject: 'Please verify your Email',
-      text: `Your OTP is ${otp}. It expires in 5 minutes.`,
+      subject: 'Verify your email',
+      html: `<p>Click to verify: <a href="${otp}">Verify Email</a></p>`
     });
 
     resp.status(200).json({ message: 'Signup successful! Check email for OTP.', success: true });
 
   } catch (error) {
     resp.status(500).json({ message: "Server error", success: false });
-    
+
   }
 };
 
