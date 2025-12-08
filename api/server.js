@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.options('*', (req, res) => {
+app.options('/*', (req, res) => {
   console.log('OPTIONS request for:', req.url);
   res.header('Access-Control-Allow-Origin', 'https://wrkrbnc.vercel.app');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
