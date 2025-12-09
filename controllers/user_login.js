@@ -15,23 +15,25 @@ const userLogin = async (req, resp) => {
       user = await Worker_schema.findOne({ Email: Email });
       role = "worker";
     }
-     
-    if (!user){
+
+    if (!user) {
       resp.status(404).json({ message: "User Not Found", success: false });
     }
 
-    const isPasswordMatch = await bcrypt.compare(Password, user.Password);
+    let isPasswordMatch = await bcrypt.compare(Password, user.Password);
     if (!isPasswordMatch) {
-      resp.status(401).json({ message: "Invalid Credentials", success: false })
+      user = await Worker_schema.findOne({ Email: Email });
+      role = "worker";
+      isPasswordMatch = await bcrypt.compare(Password, user.Password);
     }
 
-    const token = jwt.sign({ id: user._id, Email: user.Email, role }, process.env.My_Secret_Key,{expiresIn: '7d'});
-    resp.status(200).cookie("token", token,{
-        httpOnly: true,
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        path: '/'
-      }).json({ message: "Login Successfully", success: true,role: role, id: user._id,token });
+    const token = jwt.sign({ id: user._id, Email: user.Email, role }, process.env.My_Secret_Key, { expiresIn: '7d' });
+    resp.status(200).cookie("token", token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      path: '/'
+    }).json({ message: "Login Successfully", success: true, role: role, id: user._id, token });
 
 
   } catch (error) {
@@ -42,9 +44,9 @@ const userLogin = async (req, resp) => {
 
 
 
-const logout = (req, resp)=>{
-   try {
-    
+const logout = (req, resp) => {
+  try {
+
     // Clear the cookie with same options as login
     resp
       .clearCookie('token', {
@@ -53,17 +55,17 @@ const logout = (req, resp)=>{
         path: '/'
       })
       .status(200)
-      .json({ 
-        message: 'Logout Successful', 
-        success: true 
+      .json({
+        message: 'Logout Successful',
+        success: true
       });
-      
+
   } catch (error) {
     console.error('Logout error:', error);
-    resp.status(500).json({ 
-      message: 'Logout failed', 
+    resp.status(500).json({
+      message: 'Logout failed',
       success: false,
-      error: error.message 
+      error: error.message
     });
   }
 }
