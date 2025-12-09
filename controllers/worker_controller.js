@@ -68,10 +68,10 @@ const createworker = async (req, resp) => {
 
     // Send OTP email
      // 4. DEBUG: Check environment variable
-        console.log('Checking Resend API Key...');
+        console.log('Checking API_KEY Key...');
         console.log('API_KEY exists:', !!process.env.API_KEY);
-        console.log('Resend_API exists:', !!process.env.Resend_API);
-        console.log('All env vars:', Object.keys(process.env).filter(k => k.includes('RESEND') || k.includes('RESEND')));
+        console.log('API_KEY exists:', !!process.env.API_KEY);
+        console.log('All env vars:', Object.keys(process.env).filter(k => k.includes('Sendgrid') || k.includes('Sendgrid')));
 
         // 5. Send verification email
         sgMail.setApiKey(process.env.API_KEY); // Try both
@@ -90,7 +90,7 @@ const createworker = async (req, resp) => {
                     </div>
                     
                     <div style="padding: 30px; background-color: #f9fafb; border-radius: 0 0 8px 8px;">
-                        <h2 style="color: #111827; margin-top: 0;">Hello ${Name},</h2>
+                        <h2 style="color: #111827; margin-top: 0;">Hello ${First_Name},</h2>
                         
                         <p style="color: #374151; line-height: 1.6;">
                             Thank you for signing up with WorkerBNC! Please use the OTP below to verify your email address:
